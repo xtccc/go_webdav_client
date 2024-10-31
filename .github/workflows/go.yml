@@ -50,6 +50,7 @@ jobs:
         with:
           tag_name: ${{ github.ref_name }} # 使用触发的标签名称
           name: auto release ${{ github.ref_name }}
+          body: "自动发布版本 ${{ github.ref_name }}" # 添加 release 描述
           files: go_webdav_client* # 将下载的二进制文件发布到 release 中
           draft: false
           prerelease: false
