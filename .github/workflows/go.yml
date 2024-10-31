@@ -36,7 +36,8 @@ jobs:
     
     # 仅在推送以 "v" 开头的标签时运行
     if: startsWith(github.ref, 'refs/tags/v') 
-    
+    permissions:
+      contents: write    
     steps:
       - uses: actions/checkout@v4        
 
@@ -44,7 +45,7 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: go_webdav_client-build
-
+          
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
