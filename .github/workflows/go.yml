@@ -28,3 +28,18 @@ jobs:
         with:
           name: go_webdav_client-build
           path: output/go_webdav_client* # 指定要上传的编译文件路径
+  release:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: go_webdav_client-build
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v1
+        with:
+          files: output/go_webdav_client* # 将下载的二进制文件发布到 release 中
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # 使用 GitHub 的 token 来授权发布
