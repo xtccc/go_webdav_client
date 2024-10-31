@@ -4,6 +4,7 @@
 
 ### 编译好的二进制
 
+[release](https://github.com/xtccc/go_webdav_client/releases)
 
 ### 工具的使用截图
 

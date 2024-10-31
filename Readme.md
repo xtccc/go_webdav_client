@@ -4,6 +4,8 @@
 
 ### Compiled Binary
 
+[release](https://github.com/xtccc/go_webdav_client/releases)
+
 ### Tool Usage Screenshot
 
 ![](./doc/usage.png)
