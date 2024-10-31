@@ -1,6 +1,6 @@
 module go_webdav_client
 
-go 1.22.2
+go 1.23
 
 require (
 	github.com/jedib0t/go-pretty v4.3.0+incompatible
