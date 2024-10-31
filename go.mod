@@ -7,6 +7,7 @@ require (
 	github.com/schollz/progressbar/v3 v3.16.1
 	github.com/spf13/cobra v1.8.1
 	github.com/studio-b12/gowebdav v0.9.0
+	golang.org/x/text v0.19.0
 )
 
 require (

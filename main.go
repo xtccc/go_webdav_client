@@ -14,7 +14,7 @@ import (
 func webdav_init() *gowebdav.Client {
 	root, err := get_url()
 	if errors.Is(err, os.ErrNotExist) {
-		fmt.Println("请使用init 命令初始化配置url")
+		fmt.Println(init_help_str(Des_map, "init_cmd"))
 		os.Exit(1)
 	}
 	user := "user"
@@ -38,9 +38,9 @@ func main() {
 
 	var rootCmd = &cobra.Command{
 		//是命令的名称
-		Use: "go_webdave",
+		Use: "go_webdav_client",
 		//表示当前命令的完整描述。
-		Long: "go_webdave 是一个上传下载工具",
+		Long: init_help_str(Des_map, "root_cmd_long"),
 
 		//Run属性是一个函数，当执行命令时会调用此函数。
 		Run: func(cmd *cobra.Command, args []string) {
@@ -50,8 +50,8 @@ func main() {
 
 	var uploadCmd = &cobra.Command{
 		Use:   "upload",
-		Short: "上传文件",
-		Long:  "上传文件 需要两个参数：本地文件路径 和 webdav文件路径",
+		Short: "upload file",
+		Long:  init_help_str(Des_map, "upload_cmd_long"),
 		Run: func(cmd *cobra.Command, args []string) {
 			//通过cmd.flag 获取解析后的flag的值
 			webdavFilePath, _ := cmd.Flags().GetString("webdav文件路径")
@@ -64,8 +64,8 @@ func main() {
 
 	var listCmd = &cobra.Command{
 		Use:   "list",
-		Short: "列出文件",
-		Long:  "列出文件及目录",
+		Short: "list file",
+		Long:  init_help_str(Des_map, "list_cmd_long"),
 		Run: func(cmd *cobra.Command, args []string) {
 			webdavFilePath, _ := cmd.Flags().GetString("webdav文件路径")
 			c := webdav_init()
@@ -75,8 +75,8 @@ func main() {
 
 	var delCmd = &cobra.Command{
 		Use:   "del",
-		Short: "删除文件",
-		Long:  "删除文件",
+		Short: "delete file",
+		Long:  init_help_str(Des_map, "del_cmd_long"),
 		Run: func(cmd *cobra.Command, args []string) {
 			webdavFilePath, _ := cmd.Flags().GetString("webdav文件路径")
 			c := webdav_init()
@@ -86,8 +86,8 @@ func main() {
 
 	var mkdirCmd = &cobra.Command{
 		Use:   "mkdir",
-		Short: "建立文件夹",
-		Long:  "建立文件夹 支持多层建立",
+		Short: "mkdir",
+		Long:  init_help_str(Des_map, "mkdir_cmd_long"),
 		Run: func(cmd *cobra.Command, args []string) {
 			webdavFilePath, _ := cmd.Flags().GetString("webdav文件路径")
 			c := webdav_init()
@@ -97,8 +97,8 @@ func main() {
 
 	var downCmd = &cobra.Command{
 		Use:   "download",
-		Short: "下载文件",
-		Long:  "下载文件",
+		Short: "download file",
+		Long:  init_help_str(Des_map, "download_cmd_long"),
 		Run: func(cmd *cobra.Command, args []string) {
 			webdavFilePath, _ := cmd.Flags().GetString("webdav文件路径")
 			localFilePath, _ := cmd.Flags().GetString("本地文件路径")
@@ -108,8 +108,8 @@ func main() {
 	}
 	var init_url = &cobra.Command{
 		Use:   "init",
-		Short: "初始化url配置",
-		Long:  "初始化url配置",
+		Short: "init",
+		Long:  init_help_str(Des_map, "init_cmd_long"),
 		Run: func(cmd *cobra.Command, args []string) {
 			url, _ := cmd.Flags().GetString("访问的url")
 			init_url(url)
@@ -122,42 +122,43 @@ func main() {
 	//添加子命令 upload
 	rootCmd.AddCommand(uploadCmd)
 	//添加命令下的flag
-	uploadCmd.Flags().StringVarP(&localFilePath, "本地文件路径", "f", "/", "本地文件路径")
+	uploadCmd.Flags().StringVarP(&localFilePath, "本地文件路径", "f", "/", init_help_str(Des_map, "local_file_path_flag_des"))
 	uploadCmd.MarkFlagRequired("本地文件路径")
 
-	uploadCmd.Flags().StringVarP(&webdavFilePath, "webdav文件路径", "w", "/", "webdave文件路径")
+	uploadCmd.Flags().StringVarP(&webdavFilePath, "webdav文件路径", "w", "/", init_help_str(Des_map, "remote_file_path_flag_des"))
 	uploadCmd.MarkFlagRequired("webdav文件路径")
 	uploadCmd.Flags().SortFlags = false
 
 	//添加子命令 list
 	rootCmd.AddCommand(listCmd)
-	listCmd.Flags().StringVarP(&webdavFilePath, "webdav文件路径", "w", "/", "webdave文件路径")
+	listCmd.Flags().StringVarP(&webdavFilePath, "webdav文件路径", "w", "/", init_help_str(Des_map, "remote_file_path_flag_des"))
 	listCmd.MarkFlagRequired("webdav文件路径")
 	listCmd.Flags().SortFlags = false
 
 	//添加子命令 del
 	rootCmd.AddCommand(delCmd)
-	delCmd.Flags().StringVarP(&webdavFilePath, "webdav文件路径", "w", "", "webdave文件路径")
+	delCmd.Flags().StringVarP(&webdavFilePath, "webdav文件路径", "w", "", init_help_str(Des_map, "remote_file_path_flag_des"))
 	delCmd.MarkFlagRequired("webdav文件路径")
 	delCmd.Flags().SortFlags = false
 
 	rootCmd.AddCommand(mkdirCmd)
-	mkdirCmd.Flags().StringVarP(&webdavFilePath, "webdav文件路径", "w", "", "webdave文件路径")
+	mkdirCmd.Flags().StringVarP(&webdavFilePath, "webdav文件路径", "w", "", init_help_str(Des_map, "remote_file_path_flag_des"))
 	mkdirCmd.MarkFlagRequired("webdav文件路径")
 	mkdirCmd.Flags().SortFlags = false
 
 	//添加子命令 upload
 	rootCmd.AddCommand(downCmd)
 	//添加命令下的flag
-	downCmd.Flags().StringVarP(&webdavFilePath, "webdav文件路径", "w", "/", "webdave文件路径")
+	downCmd.Flags().StringVarP(&webdavFilePath, "webdav文件路径", "w", "/", init_help_str(Des_map, "remote_file_path_flag_des"))
 	downCmd.MarkFlagRequired("webdav文件路径")
-	downCmd.Flags().StringVarP(&localFilePath, "本地文件路径", "f", "/", "本地文件路径")
+	downCmd.Flags().StringVarP(&localFilePath, "本地文件路径", "f", "/", init_help_str(Des_map, "local_file_path_flag_des"))
 	downCmd.MarkFlagRequired("本地文件路径")
 	downCmd.Flags().SortFlags = false
 
 	rootCmd.AddCommand(init_url)
 	var url string
-	init_url.Flags().StringVarP(&url, "访问的url", "u", "https://192.168.31.175", "访问的url")
+	init_url.Flags().StringVarP(&url, "访问的url", "u", "https://192.168.31.175", init_help_str(Des_map, "init_url_flag_des"))
+	init_url.MarkFlagRequired("访问的url")
 
 	if err := rootCmd.Execute(); err != nil {
 		fmt.Println(err)
