@@ -39,6 +39,9 @@ jobs:
         with:
           name: go_webdav_client-build
 
+      - name: List files
+        run: echo $(pwd);ls -lhat . ;ls -R go_webdav_client # 列出下载的目录中的文件
+
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v1
         with:
